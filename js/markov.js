@@ -10,6 +10,7 @@ router.post("/", (req, res) => {
     var js = req.body;
 
     if(!("text" in js)) {
+        console.log("In here");
         res.end("Error");
         return;
     }
@@ -25,7 +26,7 @@ router.post("/", (req, res) => {
     markov = spawn("./../Markov/main.py", cmd_args);
 
     markov.stdout.on("data", (data) => {
-        results = data.toString('utf8');
+        results = data.toString("utf8");
         res.end(results);
     });
 
