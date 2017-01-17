@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Serve page
 app.get("/", (req, res) => {
-    res.sendFile("index.html", {root: __dirname });
+    res.sendFile("public/index.html", {root: __dirname });
 });
 
 // Take random sentence

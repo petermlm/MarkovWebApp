@@ -4,12 +4,25 @@
     "description": "A web application that uses the Markov Python project",
     "main": "app.js",
     "scripts": {
+        "build": "webpack",
         "start": "node ./app"
     },
     "author": "Pedro Melgueira",
     "license": "ISC",
     "dependencies": {
         "body-parser": "~1.15.1",
-        "express": "~4.13.4"
+        "express": "~4.13.4",
+        "react": "^15.4.2",
+        "react-dom": "^15.4.2",
+        "axios": "~0.15.3"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.18.0",
+        "babel-core": "^6.4.5",
+        "babel-loader": "^6.2.1",
+        "babel-preset-env": "^1.1.8",
+        "babel-preset-es2015": "^6.3.13",
+        "babel-preset-react": "^6.3.13",
+        "webpack": "^1.12.12"
     }
 }
