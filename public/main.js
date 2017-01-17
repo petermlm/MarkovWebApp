@@ -2,36 +2,61 @@ import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
+import config from "./config";
+
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             text: "",
-            generated_sentences: [
-                "This is a test sentence",
-                "This is test another sentence"
-            ]
+            words_num: 20,
+            generated_sentences: []
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleNumberChange = this.handleNumberChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleTextChange(event) {
         this.setState({
             text: event.target.value
         });
     }
 
-    handleSubmit(event) {
-        console.log("Submitted");
-        console.log(this.state);
-        event.preventDefault();
+    handleNumberChange(event) {
+        this.setState({
+            words_num: parseInt(event.target.value)
+        });
     }
 
-    componentDidMount() {
-        // TODO
+    handleSubmit(event) {
+        axios({
+            "method":       "post",
+            "url":          config.url + "/markov",
+            "Content-Type": "application/json",
+            "data":         {
+                text: this.state.text,
+                words_num: this.state.words_num
+            },
+        })
+            .then((res) => {
+                var data = res.data;
+                var gs = this.state.generated_sentences;
+
+                gs = gs.splice(0, 5)
+                var res_list = [data].concat(gs)
+
+                this.setState({
+                    generated_sentences: res_list
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        event.preventDefault();
     }
 
     render() {
@@ -44,7 +69,14 @@ export default class Main extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <textarea
                     value={this.state.text}
-                    onChange={this.handleChange}
+                    onChange={this.handleTextChange}
+                />
+                <input
+                    type="number"
+                    min="2"
+                    max="50"
+                    value={this.state.words_num}
+                    onChange={this.handleNumberChange}
                 />
                 <input type="submit" value="Generate" />
             </form>
