@@ -1,16 +1,21 @@
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
+import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap';
 
 import config from "./config";
 
-export default class Main extends React.Component {
+export default class Markov extends React.Component {
     constructor(props) {
         super(props);
 
+        this.words_num_default = 20;
+        this.words_num_min = 2;
+        this.words_num_max = 50;
+
         this.state = {
             text: "",
-            words_num: 20,
+            words_num: this.words_num_default,
             generated_sentences: []
         };
 
@@ -26,8 +31,13 @@ export default class Main extends React.Component {
     }
 
     handleNumberChange(event) {
+        var value = event.target.value
+
+        if(value < this.words_num_min) value = this.words_num_min;
+        if(value > this.words_num_max) value = this.words_num_max;
+
         this.setState({
-            words_num: parseInt(event.target.value)
+            words_num: parseInt(value)
         });
     }
 
@@ -66,26 +76,50 @@ export default class Main extends React.Component {
 
         return (
             <div>
-            <form onSubmit={this.handleSubmit}>
-                <textarea
-                    value={this.state.text}
-                    onChange={this.handleTextChange}
-                />
-                <input
-                    type="number"
-                    min="2"
-                    max="50"
-                    value={this.state.words_num}
-                    onChange={this.handleNumberChange}
-                />
-                <input type="submit" value="Generate" />
-            </form>
-            <div>
-            </div>
-                <ul>{gs_list}</ul>
+                <Form horizontal onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                        <Col sm={12} componentClass={ControlLabel}>
+                            Input Text
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={12}>
+                            <FormControl
+                                componentClass="textarea"
+                                placeholder="Insert text here"
+                                value={this.state.text}
+                                onChange={this.handleTextChange}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={2} componentClass={ControlLabel}>
+                            Number of Words
+                        </Col>
+                        <Col sm={2}>
+                            <FormControl
+                                componentClass="input"
+                                type="number"
+                                min={this.words_num_min}
+                                max={this.words_num_max}
+                                placeholder={this.words_num_default}
+                                value={this.state.words_num}
+                                onChange={this.handleNumberChange}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={12}>
+                            <Button type="submit">Generate</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>
+                <div>
+                    <ul>{gs_list}</ul>
+                </div>
             </div>
         );
     }
 }
 
-ReactDOM.render(<Main/>, document.getElementById("main"));
+ReactDOM.render(<Markov />, document.getElementById("markov"));
