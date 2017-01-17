@@ -1,0 +1,11 @@
+{
+  "name": "markov_web_app",
+  "version": "0.1",
+  "description": "A web application that uses the Markov Python project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pedro Melgueira",
+  "license": "ISC"
+}
