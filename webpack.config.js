@@ -2,7 +2,7 @@ var path    = require("path");
 var webpack = require("webpack");
 
 module.exports = {
-    entry: "./public/main.js",
+    entry: "./public/markov.js",
     output: { path: __dirname, filename: "public/bundle.js" },
     module: {
         loaders: [

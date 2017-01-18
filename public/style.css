@@ -3,6 +3,16 @@ body {
     justify-content: center;
 }
 
+textarea {
+    resize: vertical;
+    min-height: 200px;
+    max-height: 400px;
+}
+
+.control-label {
+    text-align: left !important;
+}
+
 #content {
     width: 1024px;
 }
@@ -11,8 +21,4 @@ body {
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(204, 204, 204);
     margin-bottom: 20px;
-}
-
-.control-label {
-    text-align: left !important;
 }
