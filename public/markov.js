@@ -13,8 +13,6 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 
-import config from "./config";
-
 export default class Markov extends React.Component {
     constructor(props) {
         super(props);
@@ -54,7 +52,7 @@ export default class Markov extends React.Component {
     handleSubmit(event) {
         axios({
             "method":       "post",
-            "url":          config.url + "/markov",
+            "url":          "/markov",
             "Content-Type": "application/json",
             "data":         {
                 text: this.state.text,
