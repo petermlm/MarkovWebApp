@@ -16,7 +16,7 @@ RUN cd /tmp/Markov && \
 
 RUN cd /tmp/MarkovWebApp && \
     git clone https://github.com/petermlm/MarkovWebApp . && \
-    git checkout 5b1f5991c3d5b0931004bd65a1b0661f8fd4877d
+    git checkout 86806a0160d2e3b109c41c7993402e1fd585e69c
 
 # Install PIP and NPM packages
 RUN pip3 install numpy
