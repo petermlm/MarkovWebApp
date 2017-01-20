@@ -22,11 +22,7 @@ export default class Markov extends React.Component {
         this.words_num_max = 50;
         this.chars_max = 10000;
 
-        this.state = {
-            text: "",
-            words_num: this.words_num_default,
-            generated_sentences: []
-        };
+        this.initState();
 
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -37,6 +33,8 @@ export default class Markov extends React.Component {
         this.setState({
             text: event.target.value
         });
+
+        this.keepState();
     }
 
     handleNumberChange(event) {
@@ -48,6 +46,8 @@ export default class Markov extends React.Component {
         this.setState({
             words_num: parseInt(value)
         });
+
+        this.keepState();
     }
 
     handleSubmit(event) {
@@ -76,6 +76,8 @@ export default class Markov extends React.Component {
                 this.setState({
                     generated_sentences: res_list
                 });
+
+                this.keepState();
             })
             .catch((error) => {
                 console.log(error);
@@ -158,6 +160,22 @@ export default class Markov extends React.Component {
 
     charLimitExceeded() {
         return this.state.text.length >= this.chars_max;
+    }
+
+    initState() {
+        if("state" in localStorage) {
+            this.state = JSON.parse(localStorage.getItem("state"));
+        } else {
+            this.state = {
+                text: "",
+                words_num: this.words_num_default,
+                generated_sentences: []
+            };
+        }
+    }
+
+    keepState() {
+        localStorage.setItem("state", JSON.stringify(this.state));
     }
 }
 
