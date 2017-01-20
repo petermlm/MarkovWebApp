@@ -20,6 +20,7 @@ export default class Markov extends React.Component {
         this.words_num_default = 20;
         this.words_num_min = 2;
         this.words_num_max = 50;
+        this.chars_max = 10000;
 
         this.state = {
             text: "",
@@ -50,6 +51,12 @@ export default class Markov extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+
+        if(this.charLimitExceeded()) {
+            return;
+        }
+
         axios({
             "method":       "post",
             "url":          "/markov",
@@ -73,8 +80,6 @@ export default class Markov extends React.Component {
             .catch((error) => {
                 console.log(error);
             });
-
-        event.preventDefault();
     }
 
     render() {
@@ -86,6 +91,12 @@ export default class Markov extends React.Component {
         var gs_list_title = undefined;
         if(gs_list.length > 0) {
             gs_list_title = <h4>Generated sentences</h4>
+        }
+
+        var chars_exceeded = "";
+
+        if(this.charLimitExceeded()) {
+            chars_exceeded = "Characters Limit Exceeded";
         }
 
         return (
@@ -108,7 +119,18 @@ export default class Markov extends React.Component {
                     </FormGroup>
                     <FormGroup>
                         <Col sm={2} componentClass={ControlLabel}>
-                            Number of Words
+                            Charecters Written
+                        </Col>
+                        <Col sm={2} componentClass={ControlLabel}>
+                            {this.state.text.length} / {this.chars_max}
+                        </Col>
+                        <Col sm={8} componentClass={ControlLabel} style={{ color: "red" }}>
+                            {chars_exceeded}
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={2} componentClass={ControlLabel}>
+                            Number of Generated Words
                         </Col>
                         <Col sm={2}>
                             <FormControl
@@ -132,6 +154,10 @@ export default class Markov extends React.Component {
                 <ListGroup>{gs_list}</ListGroup>
             </div>
         );
+    }
+
+    charLimitExceeded() {
+        return this.state.text.length >= this.chars_max;
     }
 }
 
