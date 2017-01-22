@@ -13,7 +13,7 @@ textarea {
     text-align: left !important;
 }
 
-#content {
+#markov{
     width: 1024px;
 }
 
@@ -22,3 +22,11 @@ textarea {
     border-bottom: 1px solid rgb(204, 204, 204);
     margin-bottom: 20px;
 }
+
+.charLimitFeedback {
+    color: red;
+}
+
+.genSentencesList {
+    font-size: 14pt;
+};
