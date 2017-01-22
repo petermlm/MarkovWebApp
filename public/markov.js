@@ -86,7 +86,7 @@ export default class Markov extends React.Component {
 
     render() {
         var gs_list = this.state.generated_sentences.map((sentence, ind) =>
-            <ListGroupItem key={ind} style={{ fontSize: 18 }}>{sentence}</ListGroupItem>
+            <ListGroupItem className="genSentencesList" key={ind}>{sentence}</ListGroupItem>
         );
 
 
@@ -126,7 +126,7 @@ export default class Markov extends React.Component {
                         <Col sm={2} componentClass={ControlLabel}>
                             {this.state.text.length} / {this.chars_max}
                         </Col>
-                        <Col sm={8} componentClass={ControlLabel} style={{ color: "red" }}>
+                        <Col className="charLimitFeedback" sm={8} componentClass={ControlLabel}>
                             {chars_exceeded}
                         </Col>
                     </FormGroup>
