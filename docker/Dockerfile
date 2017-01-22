@@ -1,10 +1,13 @@
 FROM ubuntu:16.04
 
-# Install Python Node and npm, which is what is going to be running the
+# Install Python, Node and npm, which is what is going to be running the
 # applications. Also, install git
 RUN apt update
 RUN apt -qq -y install python3 python3-pip nodejs npm git
 RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+# Install numpy
+RUN pip3 install numpy
 
 # Create directories for Markov and MarkovWebApp projects
 RUN mkdir /tmp/Markov /tmp/MarkovWebApp
@@ -12,14 +15,13 @@ RUN mkdir /tmp/Markov /tmp/MarkovWebApp
 # Pull versions from GitHub
 RUN cd /tmp/Markov && \
     git clone https://github.com/petermlm/Markov . && \
-    git checkout c55d50a2c7c757100e9e8c93f048c9831bb1ebf0
+    git checkout 9818d63a3cadacfe84e2dec31629e4eeae1da6f4
 
 RUN cd /tmp/MarkovWebApp && \
     git clone https://github.com/petermlm/MarkovWebApp . && \
-    git checkout 86806a0160d2e3b109c41c7993402e1fd585e69c
+    git checkout 957a069de4286ea5485f77be69c60852ba095b39
 
-# Install PIP and NPM packages
-RUN pip3 install numpy
+# Install NPM packages
 RUN cd /tmp/MarkovWebApp && npm install
 RUN cd /tmp/MarkovWebApp && npm install -g webpack
 
