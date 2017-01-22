@@ -13,8 +13,6 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 
-import config from "./config";
-
 export default class Markov extends React.Component {
     constructor(props) {
         super(props);
@@ -22,12 +20,10 @@ export default class Markov extends React.Component {
         this.words_num_default = 20;
         this.words_num_min = 2;
         this.words_num_max = 50;
+        this.gs_list_length = 5;
+        this.chars_max = 10000;
 
-        this.state = {
-            text: "",
-            words_num: this.words_num_default,
-            generated_sentences: []
-        };
+        this.initState();
 
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -38,6 +34,8 @@ export default class Markov extends React.Component {
         this.setState({
             text: event.target.value
         });
+
+        this.keepState();
     }
 
     handleNumberChange(event) {
@@ -49,12 +47,20 @@ export default class Markov extends React.Component {
         this.setState({
             words_num: parseInt(value)
         });
+
+        this.keepState();
     }
 
     handleSubmit(event) {
+        event.preventDefault();
+
+        if(this.charLimitExceeded()) {
+            return;
+        }
+
         axios({
             "method":       "post",
-            "url":          config.url + "/markov",
+            "url":          "/markov",
             "Content-Type": "application/json",
             "data":         {
                 text: this.state.text,
@@ -65,23 +71,23 @@ export default class Markov extends React.Component {
                 var data = res.data;
                 var gs = this.state.generated_sentences;
 
-                gs = gs.splice(0, 5)
+                gs = gs.splice(0, this.gs_list_length-1)
                 var res_list = [data].concat(gs)
 
                 this.setState({
                     generated_sentences: res_list
                 });
+
+                this.keepState();
             })
             .catch((error) => {
                 console.log(error);
             });
-
-        event.preventDefault();
     }
 
     render() {
         var gs_list = this.state.generated_sentences.map((sentence, ind) =>
-            <ListGroupItem key={ind} style={{ fontSize: 18 }}>{sentence}</ListGroupItem>
+            <ListGroupItem className="genSentencesList" key={ind}>{sentence}</ListGroupItem>
         );
 
 
@@ -90,8 +96,15 @@ export default class Markov extends React.Component {
             gs_list_title = <h4>Generated sentences</h4>
         }
 
+        var chars_exceeded = "";
+
+        if(this.charLimitExceeded()) {
+            chars_exceeded = "Characters Limit Exceeded";
+        }
+
         return (
             <div>
+                <h1 id="page_title">Markov Chain Text Generator</h1>
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Col sm={12} componentClass={ControlLabel}>
@@ -110,7 +123,18 @@ export default class Markov extends React.Component {
                     </FormGroup>
                     <FormGroup>
                         <Col sm={2} componentClass={ControlLabel}>
-                            Number of Words
+                            Charecters Written
+                        </Col>
+                        <Col sm={2} componentClass={ControlLabel}>
+                            {this.state.text.length} / {this.chars_max}
+                        </Col>
+                        <Col className="charLimitFeedback" sm={8} componentClass={ControlLabel}>
+                            {chars_exceeded}
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={2} componentClass={ControlLabel}>
+                            Number of Generated Words
                         </Col>
                         <Col sm={2}>
                             <FormControl
@@ -134,6 +158,26 @@ export default class Markov extends React.Component {
                 <ListGroup>{gs_list}</ListGroup>
             </div>
         );
+    }
+
+    charLimitExceeded() {
+        return this.state.text.length >= this.chars_max;
+    }
+
+    initState() {
+        if("state" in localStorage) {
+            this.state = JSON.parse(localStorage.getItem("state"));
+        } else {
+            this.state = {
+                text: "",
+                words_num: this.words_num_default,
+                generated_sentences: []
+            };
+        }
+    }
+
+    keepState() {
+        localStorage.setItem("state", JSON.stringify(this.state));
     }
 }
 

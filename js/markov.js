@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
     }
 
     // Spawn process and prepare events
-    markov = spawn("./../Markov/main.py", cmd_args);
+    markov = spawn("./../Markov/markov.py", cmd_args);
 
     markov.stdout.on("data", (data) => {
         results = data.toString("utf8");
