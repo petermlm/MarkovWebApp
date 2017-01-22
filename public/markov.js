@@ -20,6 +20,7 @@ export default class Markov extends React.Component {
         this.words_num_default = 20;
         this.words_num_min = 2;
         this.words_num_max = 50;
+        this.gs_list_length = 5;
         this.chars_max = 10000;
 
         this.initState();
@@ -70,7 +71,7 @@ export default class Markov extends React.Component {
                 var data = res.data;
                 var gs = this.state.generated_sentences;
 
-                gs = gs.splice(0, 5)
+                gs = gs.splice(0, this.gs_list_length-1)
                 var res_list = [data].concat(gs)
 
                 this.setState({
@@ -103,6 +104,7 @@ export default class Markov extends React.Component {
 
         return (
             <div>
+                <h1 id="page_title">Markov Chain Text Generator</h1>
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Col sm={12} componentClass={ControlLabel}>
