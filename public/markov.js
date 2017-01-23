@@ -60,7 +60,7 @@ export default class Markov extends React.Component {
 
         axios({
             "method":       "post",
-            "url":          "/markov",
+            "url":          "/text",
             "Content-Type": "application/json",
             "data":         {
                 text: this.state.text,

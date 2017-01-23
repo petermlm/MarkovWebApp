@@ -1,7 +1,8 @@
 var express    = require("express");
 var bodyParser = require("body-parser");
 
-var markov = require("./js/markov");
+var text = require("./js/text");
+var reddit = require("./js/reddit");
 var config = require("./js/config");
 
 // Setup express application
@@ -17,7 +18,10 @@ app.get("/", (req, res) => {
 });
 
 // Take random sentence
-app.use("/markov", markov);
+app.use("/text", text);
+
+// Take reddit history
+app.use("/reddit", reddit);
 
 // Start server
 app.listen(config.port, function(){
