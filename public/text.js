@@ -13,7 +13,7 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 
-export default class Markov extends React.Component {
+export default class Text extends React.Component {
     constructor(props) {
         super(props);
 
@@ -180,5 +180,3 @@ export default class Markov extends React.Component {
         localStorage.setItem("state", JSON.stringify(this.state));
     }
 }
-
-ReactDOM.render(<Markov />, document.getElementById("markov"));
