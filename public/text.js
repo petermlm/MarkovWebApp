@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 
+import GSList from "./gs_list";
+
 import {
     Form,
     FormGroup,
@@ -86,16 +88,6 @@ export default class Text extends React.Component {
     }
 
     render() {
-        var gs_list = this.state.generated_sentences.map((sentence, ind) =>
-            <ListGroupItem className="genSentencesList" key={ind}>{sentence}</ListGroupItem>
-        );
-
-
-        var gs_list_title = undefined;
-        if(gs_list.length > 0) {
-            gs_list_title = <h4>Generated sentences</h4>
-        }
-
         var chars_exceeded = "";
 
         if(this.charLimitExceeded()) {
@@ -154,8 +146,7 @@ export default class Text extends React.Component {
                         </Col>
                     </FormGroup>
                 </Form>
-                {gs_list_title}
-                <ListGroup>{gs_list}</ListGroup>
+                <GSList generated_sentences={this.state.generated_sentences} />
             </div>
         );
     }
