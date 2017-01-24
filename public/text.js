@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom";
 
+import GSList from "./gs_list";
+
 import {
     Form,
     FormGroup,
@@ -13,7 +15,7 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 
-export default class Markov extends React.Component {
+export default class Text extends React.Component {
     constructor(props) {
         super(props);
 
@@ -60,7 +62,7 @@ export default class Markov extends React.Component {
 
         axios({
             "method":       "post",
-            "url":          "/markov",
+            "url":          "/text",
             "Content-Type": "application/json",
             "data":         {
                 text: this.state.text,
@@ -86,16 +88,6 @@ export default class Markov extends React.Component {
     }
 
     render() {
-        var gs_list = this.state.generated_sentences.map((sentence, ind) =>
-            <ListGroupItem className="genSentencesList" key={ind}>{sentence}</ListGroupItem>
-        );
-
-
-        var gs_list_title = undefined;
-        if(gs_list.length > 0) {
-            gs_list_title = <h4>Generated sentences</h4>
-        }
-
         var chars_exceeded = "";
 
         if(this.charLimitExceeded()) {
@@ -104,7 +96,7 @@ export default class Markov extends React.Component {
 
         return (
             <div>
-                <h1 id="page_title">Markov Chain Text Generator</h1>
+                <h1 className="page_title">Markov Chain Text Generator</h1>
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Col sm={12} componentClass={ControlLabel}>
@@ -154,8 +146,7 @@ export default class Markov extends React.Component {
                         </Col>
                     </FormGroup>
                 </Form>
-                {gs_list_title}
-                <ListGroup>{gs_list}</ListGroup>
+                <GSList generated_sentences={this.state.generated_sentences} />
             </div>
         );
     }
@@ -180,5 +171,3 @@ export default class Markov extends React.Component {
         localStorage.setItem("state", JSON.stringify(this.state));
     }
 }
-
-ReactDOM.render(<Markov />, document.getElementById("markov"));

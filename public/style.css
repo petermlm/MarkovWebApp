@@ -13,11 +13,16 @@ textarea {
     text-align: left !important;
 }
 
-#markov{
+#root {
     width: 1024px;
 }
 
-#page_title {
+#switcher {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.page_title {
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(204, 204, 204);
     margin-bottom: 20px;

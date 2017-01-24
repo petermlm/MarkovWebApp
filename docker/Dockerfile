@@ -19,7 +19,7 @@ RUN cd /tmp/Markov && \
 
 RUN cd /tmp/MarkovWebApp && \
     git clone https://github.com/petermlm/MarkovWebApp . && \
-    git checkout 957a069de4286ea5485f77be69c60852ba095b39
+    git checkout 193b734c767be5fc08dac153380e8c1dc7a3c6e8
 
 # Install NPM packages
 RUN cd /tmp/MarkovWebApp && npm install
