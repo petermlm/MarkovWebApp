@@ -49,12 +49,12 @@ function getCommentsPage(username) {
 
 router.get("/", (req, res) => {
     // Get username
-    try {
-        var username = req.query["username"];
-    } catch(e) {
+    if(!("username" in req.query) || req.query["username"] === undefined) {
         res.end("No username provided");
         return;
     }
+
+    var username = req.query["username"];
 
     // Get number of words
     var words_num = 20;

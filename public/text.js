@@ -96,7 +96,7 @@ export default class Text extends React.Component {
 
         return (
             <div>
-                <h1 id="page_title">Markov Chain Text Generator</h1>
+                <h1 className="page_title">Markov Chain Text Generator</h1>
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Col sm={12} componentClass={ControlLabel}>

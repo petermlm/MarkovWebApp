@@ -14,7 +14,7 @@ export default class Switcher extends React.Component {
 
     render() {
         return (
-            <Button onClick={this.handleClick}>{this.props.label}</Button>
+            <Button id="switcher" onClick={this.handleClick}>{this.props.label}</Button>
         );
     }
 }

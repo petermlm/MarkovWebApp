@@ -19,15 +19,24 @@ export default class Reddit extends React.Component {
 
         this.gs_list_length = 5;
 
+        this.state = { username: "" };
+
         this.initState();
 
+        this.handleTextChange = this.handleTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleTextChange(event) {
+        this.setState({ username: event.target.value });
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
-        axios.get("/reddit?username=petermlm&words_num=20")
+        var username = this.state.username;
+
+        axios.get(`/reddit?username=${username}&words_num=20`)
             .then((res) => {
                 var data = res.data;
                 var gs = this.state.generated_sentences;
@@ -47,13 +56,18 @@ export default class Reddit extends React.Component {
     render() {
         return (
             <div>
+                <h1 className="page_title">Reddit Comments Text Generator</h1>
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Col sm={2} componentClass={ControlLabel}>
                             Username
                         </Col>
                         <Col sm={10}>
-                            <FormControl type="text" placeholder="username" />
+                            <FormControl
+                                type="text"
+                                onChange={this.handleTextChange}
+                                placeholder="username"
+                            />
                         </Col>
                     </FormGroup>
                     <FormGroup>
