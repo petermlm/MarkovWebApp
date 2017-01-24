@@ -9,20 +9,20 @@ export default class Root extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { label: "Text" };
+        this.state = { view: "Text" };
         this.handleSwitch = this.handleSwitch.bind(this);
     }
 
     handleSwitch() {
-        this.setState({ label:
-            (this.state.label == "Text") ? "Reddit" : "Text"
+        this.setState({ view:
+            (this.state.view == "Text") ? "Reddit" : "Text"
         });
     }
 
     render() {
         var disp_comp = undefined;
 
-        if(this.state.label == "Text") {
+        if(this.state.view == "Text") {
             disp_comp = <Text />;
         } else {
             disp_comp = <Reddit />;
@@ -31,7 +31,7 @@ export default class Root extends React.Component {
         return (
             <div>
                 <Switcher
-                    label={this.state.label}
+                    label={(this.state.view == "Text") ? "Reddit" : "Text"}
                     onSwitch={this.handleSwitch}
                 />
                 { disp_comp }
