@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 # Install Python, Node and npm, which is what is going to be running the
 # applications. Also, install git
-RUN apt update
+RUN apt update --fix-missing
 RUN apt -qq -y install python3 python3-pip nodejs npm git
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
@@ -10,20 +10,20 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN pip3 install numpy
 
 # Create directories for Markov and MarkovWebApp projects
-RUN mkdir /tmp/Markov /tmp/MarkovWebApp
+RUN mkdir -p /app/Markov /app/MarkovWebApp
 
 # Pull versions from GitHub
-RUN cd /tmp/Markov && \
-    git clone https://github.com/petermlm/Markov . && \
-    git checkout 9818d63a3cadacfe84e2dec31629e4eeae1da6f4
+RUN cd /app/Markov && \
+    git clone https://github.com/petermlm/Markov .
 
-RUN cd /tmp/MarkovWebApp && \
-    git clone https://github.com/petermlm/MarkovWebApp . && \
-    git checkout 193b734c767be5fc08dac153380e8c1dc7a3c6e8
+ADD . /app/MarkovWebApp
 
 # Install NPM packages
-RUN cd /tmp/MarkovWebApp && npm install
-RUN cd /tmp/MarkovWebApp && npm install -g webpack
+RUN cd /app/MarkovWebApp && npm install
+RUN cd /app/MarkovWebApp && npm install -g webpack
 
 # Build MarkovWebApp
-RUN cd /tmp/MarkovWebApp && npm run build
+RUN cd /app/MarkovWebApp && npm run build
+
+WORKDIR /app/MarkovWebApp
+CMD [ "npm", "start" ]
