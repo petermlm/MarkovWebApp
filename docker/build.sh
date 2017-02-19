@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t markov_web_app -f Dockerfile ..
+sudo docker build -t markov-web-app -f Dockerfile ..

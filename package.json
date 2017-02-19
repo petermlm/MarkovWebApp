@@ -1,6 +1,6 @@
 {
     "name": "markov_web_app",
-    "version": "0.3.0",
+    "version": "0.4.1",
     "description": "A web application that uses the Markov Python project",
     "main": "app.js",
     "scripts": {

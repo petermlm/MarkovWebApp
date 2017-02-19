@@ -3,5 +3,6 @@
 sudo docker run \
     -it \
     --rm \
+    --name markov-web-app \
     -p 8001:8001 \
-    markov_web_app
+    markov-web-app
