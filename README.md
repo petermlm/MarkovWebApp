@@ -1,3 +1,7 @@
+*This is an old project I no longer activly maintain. I've reimplemented this
+in Python and Vue in
+[petermlm/markovweb](https://github.com/petermlm/markovweb).*
+
 This is a simple Web Application that I've done to learn more about Node.js,
 React, and it's related technologies, like webpack, babel, etc.
 
